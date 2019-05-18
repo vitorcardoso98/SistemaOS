@@ -20,9 +20,16 @@ public class Produto {
     private int quantidade;
     private double preco;
 
+    
+    @Override
+    public String toString() {
+        return getNome();
+    }
+
     /**
      * @return the codigo
      */
+    
     public int getCodigo() {
         return codigo;
     }

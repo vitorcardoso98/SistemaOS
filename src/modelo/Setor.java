@@ -12,6 +12,11 @@ public class Setor {
     private String telefone;
     private String responsavel;
 
+    @Override
+    public String toString() {
+        return getNome();
+    }
+    
     /**
      * @return the idSetor
      */

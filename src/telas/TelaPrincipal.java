@@ -39,9 +39,11 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
+        jMenuItem4 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem3 = new javax.swing.JMenuItem();
+        jMenuItem5 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Sistema de ordem de serviço");
@@ -74,6 +76,11 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jButton2.setMinimumSize(new java.awt.Dimension(165, 165));
         jButton2.setPreferredSize(new java.awt.Dimension(165, 165));
         jButton2.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
         jToolBar1.add(jButton2);
 
         jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/imprimir.png"))); // NOI18N
@@ -124,6 +131,9 @@ public class TelaPrincipal extends javax.swing.JFrame {
         });
         jMenu1.add(jMenuItem2);
 
+        jMenuItem4.setText("Produto");
+        jMenu1.add(jMenuItem4);
+
         jMenuBar1.add(jMenu1);
 
         jMenu2.setText("Movimentação");
@@ -143,6 +153,14 @@ public class TelaPrincipal extends javax.swing.JFrame {
             }
         });
         jMenu2.add(jMenuItem3);
+
+        jMenuItem5.setText("Nova OS");
+        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem5ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem5);
 
         jMenuBar1.add(jMenu2);
 
@@ -190,6 +208,20 @@ public class TelaPrincipal extends javax.swing.JFrame {
         listarSetores.setPosicao();
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        CadastrarOS cadastrarOS = new CadastrarOS();
+        cadastrarOS.setVisible(true);
+        jDesktopPane1.add(cadastrarOS);
+        cadastrarOS.setPosicao();
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
+        CadastrarOS cadastrarOS = new CadastrarOS();
+        cadastrarOS.setVisible(true);
+        jDesktopPane1.add(cadastrarOS);
+        cadastrarOS.setPosicao();
+    }//GEN-LAST:event_jMenuItem5ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -236,6 +268,8 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuItem4;
+    private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JToolBar jToolBar1;
     // End of variables declaration//GEN-END:variables
