@@ -3,10 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package telas;
 
-import java.awt.Component;
+import bd.Conexao;
+import java.sql.Connection;
+import java.util.HashMap;
+import javax.swing.JOptionPane;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.view.JasperViewer;
 
 /**
  *
@@ -17,8 +23,11 @@ public class TelaPrincipal extends javax.swing.JFrame {
     /**
      * Creates new form TelaPrincipal
      */
+    Connection conexao = null;
+
     public TelaPrincipal() {
         initComponents();
+        
     }
 
     /**
@@ -92,6 +101,11 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jButton3.setMinimumSize(new java.awt.Dimension(165, 165));
         jButton3.setPreferredSize(new java.awt.Dimension(165, 165));
         jButton3.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
         jToolBar1.add(jButton3);
 
         jDesktopPane1.setBackground(new java.awt.Color(0, 102, 102));
@@ -237,6 +251,20 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jDesktopPane1.add(ordens);
         ordens.setPosicao();
     }//GEN-LAST:event_jMenuItem6ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        conexao = new Conexao().getConnection();
+        int os = Integer.parseInt(JOptionPane.showInputDialog("Informe o número da os"));
+        try {
+            HashMap filtro = new HashMap();
+            filtro.put("os", os);
+            JasperPrint imprimir = JasperFillManager.fillReport("C:/SistemaOS/relatorios/os.jasper", filtro, conexao);
+            
+            JasperViewer.viewReport(imprimir, false);
+        } catch (JRException e) {
+            System.out.println(e);
+        }
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
      * @param args the command line arguments

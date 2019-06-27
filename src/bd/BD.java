@@ -32,9 +32,27 @@ public class BD {
         return rs;
     }
     
+    private ResultSet executar(String sql, int tipo, String op) throws SQLException {
+        stmt = conexao.createStatement();
+        stmt = conexao.createStatement();
+        rs = null;
+        
+        if (op.equals("os")) {
+           stmt.executeUpdate(sql, Statement.RETURN_GENERATED_KEYS);
+           rs = stmt.getGeneratedKeys();
+        } 
+        return rs;
+    }
+    
     public void inserir(String sql) throws SQLException{
         System.out.println(sql);
         executar(sql, 1);
+    }
+    
+    public ResultSet inserir(String sql, String op) throws SQLException{
+        System.out.println(sql);
+        executar(sql, 1, op);
+        return rs;
     }
     
     public ResultSet consultar(String SQL) throws SQLException {

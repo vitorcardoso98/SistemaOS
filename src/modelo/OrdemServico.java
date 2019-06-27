@@ -1,6 +1,8 @@
 package modelo;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  *
@@ -16,6 +18,7 @@ public class OrdemServico {
     private String situacao;
     private Double valorServico;
     private String descricao;
+    private List<ItemOS> oss = new ArrayList<>();
 
     /**
      * @return the codigo
@@ -127,6 +130,14 @@ public class OrdemServico {
      */
     public void setDescricao(String descricao) {
         this.descricao = descricao;
+    }
+    
+    public void addItem(ItemOS itemOS) {
+        oss.add(itemOS);
+    }
+    
+    public List<ItemOS> getItens() {
+        return oss;
     }
     
 }
