@@ -6,12 +6,21 @@
 
 package telas;
 
+import bd.Conexao;
 import bd.OsDAO;
 import java.awt.Dimension;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import modelo.OrdemServico;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.view.JasperViewer;
 
 /**
  *
@@ -22,7 +31,7 @@ public class OSCadastradas extends javax.swing.JInternalFrame {
     /**
      * Creates new form OSCadastradas
      */
-    
+    Connection conexao = null;
     OsDAO osDAO = new OsDAO();
     
     public void setPosicao() {
@@ -60,10 +69,29 @@ public class OSCadastradas extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPopupMenu1 = new javax.swing.JPopupMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItem2 = new javax.swing.JMenuItem();
         jTextField1 = new javax.swing.JTextField();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
+
+        jMenuItem1.setText("Excluir");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jPopupMenu1.add(jMenuItem1);
+
+        jMenuItem2.setText("Visualizar/Imprimir");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
+        jPopupMenu1.add(jMenuItem2);
 
         setClosable(true);
         setIconifiable(true);
@@ -90,6 +118,11 @@ public class OSCadastradas extends javax.swing.JInternalFrame {
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
+            }
+        });
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
             }
         });
         jScrollPane1.setViewportView(jTable1);
@@ -140,9 +173,49 @@ public class OSCadastradas extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        int opcao = JOptionPane.showConfirmDialog(this, "Deseja realmente excluir esta OS?");
+        int linha = jTable1.getSelectedRow();
+        if (opcao == 0) {
+            OrdemServico os = new OrdemServico();
+            os.setCodigo(Integer.parseInt(jTable1.getValueAt(linha, 0).toString()));
+            try {
+                osDAO.excluir(os);
+                JOptionPane.showMessageDialog(null, "OS excluída com sucesso!");
+                preencherTabelaOrdens();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+        if (evt.isMetaDown()) {
+            jPopupMenu1.show(jTable1, evt.getX(), evt.getY());
+        }
+    }//GEN-LAST:event_jTable1MouseClicked
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        int linha = jTable1.getSelectedRow();
+        conexao = new Conexao().getConnection();
+        int os = Integer.parseInt(jTable1.getValueAt(linha, 0).toString());
+        try {
+            HashMap filtro = new HashMap();
+            filtro.put("os", os);
+            JasperPrint imprimir = JasperFillManager.fillReport("C:/SistemaOS/relatorios/os.jasper", filtro, conexao);
+            
+            JasperViewer.viewReport(imprimir, false);
+        } catch (JRException e) {
+            System.out.println(e);
+        }
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPopupMenu jPopupMenu1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField1;

@@ -56,11 +56,6 @@ public class OsDAO {
                 os.setSituacao(rs.getString("situacao"));
                 os.setValorServico(rs.getDouble("valorServico"));
                 os.setDescricao(rs.getString("descricao"));
-                //Produto produto = new Produto();
-                //produto.setCodigo(rs.getInt("codigoProduto"));
-                //Setor setor = new Setor();
-                //setor.setIdSetor(rs.getInt("idSetor"));
-                //os.setProduto(produto);
                 ordens.add(os);
             }
         } catch (SQLException ex) {
@@ -68,5 +63,11 @@ public class OsDAO {
         }
         //bd.fecharConexao();
         return ordens;
+    }
+    
+    public void excluir(OrdemServico os)throws SQLException{
+        String WHERE = String.valueOf(os.getCodigo());
+        String sql = "DELETE FROM " + TABELA + " WHERE codigo = " + WHERE;
+        bd.excluir(sql);
     }
 }
