@@ -20,7 +20,7 @@ public class ProdutoDAO {
     private final String TABELA = "produtos";
 
     public void salvar(Produto produto) throws SQLException {
-        String COLUNAS = "nome, marca, numeroSerie, descricao, quantidade, preco";
+        String COLUNAS = "nomeProduto, marca, numeroSerie, descricao, quantidade, preco";
         String VALUES = "'" + produto.getNome() + "',"
                 + "'" + produto.getMarca() + "',"
                 + "'" + produto.getNumeroSerie() + "',"
@@ -39,8 +39,8 @@ public class ProdutoDAO {
             ResultSet rs = bd.consultar("SELECT * FROM produtos");
             while (rs.next()) {
                 Produto produto = new Produto();
-                produto.setCodigo(rs.getInt("codigo"));
-                produto.setNome(rs.getString("nome"));
+                produto.setCodigo(rs.getInt("codigoProduto"));
+                produto.setNome(rs.getString("nomeProduto"));
                 produto.setMarca(rs.getString("marca"));
                 produto.setNumeroSerie(rs.getString("numeroSerie"));
                 produto.setDescricao(rs.getString("descricao"));
@@ -56,12 +56,12 @@ public class ProdutoDAO {
     }
 
     public Produto consultaPorProduto(int codigo) throws SQLException {
-        String WHERE = "codigo = "+codigo;
+        String WHERE = "codigoProduto = "+codigo;
         ResultSet rs = bd.consultar("*", TABELA, WHERE);
         Produto produto = new Produto();
         if (rs.next()) {
-            produto.setCodigo(rs.getInt("codigo"));
-            produto.setNome(rs.getString("nome"));
+            produto.setCodigo(rs.getInt("codigoProduto"));
+            produto.setNome(rs.getString("nomeProduto"));
             produto.setMarca(rs.getString("marca"));
             produto.setNumeroSerie(rs.getString("numeroSerie"));
             produto.setDescricao(rs.getString("descricao"));
@@ -73,21 +73,21 @@ public class ProdutoDAO {
 
     public void excluir(Produto produto) throws SQLException {
         String WHERE = String.valueOf(produto.getCodigo());
-        String sql = "DELETE FROM " + TABELA + " WHERE codigo = " + WHERE;
+        String sql = "DELETE FROM " + TABELA + " WHERE codigoProduto = " + WHERE;
         bd.excluir(sql);
     }
     
     public void editarProduto(Produto produto) throws SQLException {
         String preco = String.valueOf(produto.getPreco());
         String quantidade = String.valueOf(produto.getQuantidade());
-        String SET = "nome= '"+ produto.getNome() +"',"
+        String SET = "nomeProduto= '"+ produto.getNome() +"',"
                 + "marca= '"+ produto.getMarca() +"',"
                 + "preco= '"+ preco +"',"
                 + "quantidade= '"+ quantidade +"',"
                 + "descricao= '"+produto.getDescricao()+"',"
                 + "numeroSerie= '"+produto.getNumeroSerie()+"'";
         String WHERE = String.valueOf(produto.getCodigo());
-        String sql = "UPDATE " + TABELA + " SET " + SET + " WHERE codigo = " + WHERE;
+        String sql = "UPDATE " + TABELA + " SET " + SET + " WHERE codigoProduto = " + WHERE;
         bd.atualizar(sql);
     }
 }

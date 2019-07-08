@@ -11,7 +11,7 @@ import java.util.List;
 public class OrdemServico {
 
     private int codigo;
-    private Produto produto;
+    //private Produto produto;
     private Setor setor;
     private Date dataEmissao;
     private String servico;
@@ -33,24 +33,7 @@ public class OrdemServico {
     public void setCodigo(int codigo) {
         this.codigo = codigo;
     }
-
-    /**
-     * @return the produto
-     */
-    public Produto getProduto() {
-        return produto;
-    }
-
-    /**
-     * @param produto the produto to set
-     */
-    public void setProduto(Produto produto) {
-        this.produto = produto;
-    }
-
-    /**
-     * @return the setor
-     */
+    
     public Setor getSetor() {
         return setor;
     }

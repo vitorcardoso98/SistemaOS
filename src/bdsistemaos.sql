@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: 11-Jun-2019 às 01:22
+-- Generation Time: 08-Jul-2019 às 18:25
 -- Versão do servidor: 10.1.10-MariaDB
 -- PHP Version: 5.6.19
 
@@ -23,6 +23,26 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Estrutura da tabela `item_os`
+--
+
+CREATE TABLE `item_os` (
+  `idItemOs` int(11) NOT NULL,
+  `idProduto` int(11) DEFAULT NULL,
+  `idOs` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Extraindo dados da tabela `item_os`
+--
+
+INSERT INTO `item_os` (`idItemOs`, `idProduto`, `idOs`) VALUES
+(14, 10, 14),
+(15, 11, 14);
+
+-- --------------------------------------------------------
+
+--
 -- Estrutura da tabela `os`
 --
 
@@ -33,7 +53,6 @@ CREATE TABLE `os` (
   `situacao` varchar(20) DEFAULT 'ABERTA',
   `valorServico` double DEFAULT NULL,
   `descricao` varchar(250) DEFAULT NULL,
-  `codigoProduto` int(11) DEFAULT NULL,
   `idSetor` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -41,10 +60,8 @@ CREATE TABLE `os` (
 -- Extraindo dados da tabela `os`
 --
 
-INSERT INTO `os` (`codigo`, `dataEmissao`, `servico`, `situacao`, `valorServico`, `descricao`, `codigoProduto`, `idSetor`) VALUES
-(1, '2019-05-18', 'Troca de fone', 'ABERTA', 25, '', 7, 1),
-(2, '2019-05-18', 'Troca de fonte', 'ABERTA', 30, '', 8, 1),
-(3, '2019-05-18', 'Troca da carcaça', 'ABERTA', 25, '', 7, 3);
+INSERT INTO `os` (`codigo`, `dataEmissao`, `servico`, `situacao`, `valorServico`, `descricao`, `idSetor`) VALUES
+(14, '2019-07-08', 'Teste', 'ABERTA', 50, 'Testando', 5);
 
 -- --------------------------------------------------------
 
@@ -53,8 +70,8 @@ INSERT INTO `os` (`codigo`, `dataEmissao`, `servico`, `situacao`, `valorServico`
 --
 
 CREATE TABLE `produtos` (
-  `codigo` int(11) NOT NULL,
-  `nome` varchar(50) DEFAULT NULL,
+  `codigoProduto` int(11) NOT NULL,
+  `nomeProduto` varchar(50) DEFAULT NULL,
   `marca` varchar(30) DEFAULT NULL,
   `numeroSerie` varchar(20) DEFAULT NULL,
   `descricao` varchar(50) DEFAULT NULL,
@@ -66,9 +83,9 @@ CREATE TABLE `produtos` (
 -- Extraindo dados da tabela `produtos`
 --
 
-INSERT INTO `produtos` (`codigo`, `nome`, `marca`, `numeroSerie`, `descricao`, `quantidade`, `preco`) VALUES
-(7, 'Caixa de som', 'Goldentec', 'GOLD201901', 'GTMUSIC', 3, 40),
-(8, 'Roteador', 'IntelBras', 'ITS201901', '150 Mbps', 4, 100);
+INSERT INTO `produtos` (`codigoProduto`, `nomeProduto`, `marca`, `numeroSerie`, `descricao`, `quantidade`, `preco`) VALUES
+(10, 'Impressora Teste', 'Teste', 'TST201901', 'Impressora teste', 2, 50),
+(11, 'Notebook', 'Lenovo', '123456', '', 2, 1500);
 
 -- --------------------------------------------------------
 
@@ -89,26 +106,32 @@ CREATE TABLE `setor` (
 --
 
 INSERT INTO `setor` (`idSetor`, `nome`, `endereco`, `telefone`, `responsavel`) VALUES
-(1, 'Secretária de Saúde', 'Rua das secretarias, 70, Centro ', '9 9195-4885', 'José das Secretarias'),
-(3, 'Secretaria de educação', 'Rua das secretarias', '9 9195-4885', 'José dos esportes');
+(5, 'Secretaria de educação', 'Rua testando, 123', '9 9195-4885', 'Marcos');
 
 --
 -- Indexes for dumped tables
 --
 
 --
+-- Indexes for table `item_os`
+--
+ALTER TABLE `item_os`
+  ADD PRIMARY KEY (`idItemOs`),
+  ADD KEY `item_os_ibfk_1` (`idProduto`),
+  ADD KEY `item_os_ibfk_2` (`idOs`);
+
+--
 -- Indexes for table `os`
 --
 ALTER TABLE `os`
   ADD PRIMARY KEY (`codigo`),
-  ADD KEY `codigoProduto` (`codigoProduto`),
-  ADD KEY `idSetor` (`idSetor`);
+  ADD KEY `os_ibfk_1` (`idSetor`);
 
 --
 -- Indexes for table `produtos`
 --
 ALTER TABLE `produtos`
-  ADD PRIMARY KEY (`codigo`);
+  ADD PRIMARY KEY (`codigoProduto`);
 
 --
 -- Indexes for table `setor`
@@ -121,30 +144,41 @@ ALTER TABLE `setor`
 --
 
 --
+-- AUTO_INCREMENT for table `item_os`
+--
+ALTER TABLE `item_os`
+  MODIFY `idItemOs` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+--
 -- AUTO_INCREMENT for table `os`
 --
 ALTER TABLE `os`
-  MODIFY `codigo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `codigo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 --
 -- AUTO_INCREMENT for table `produtos`
 --
 ALTER TABLE `produtos`
-  MODIFY `codigo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `codigoProduto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 --
 -- AUTO_INCREMENT for table `setor`
 --
 ALTER TABLE `setor`
-  MODIFY `idSetor` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `idSetor` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 --
 -- Constraints for dumped tables
 --
 
 --
+-- Limitadores para a tabela `item_os`
+--
+ALTER TABLE `item_os`
+  ADD CONSTRAINT `item_os_ibfk_1` FOREIGN KEY (`idProduto`) REFERENCES `produtos` (`codigoProduto`),
+  ADD CONSTRAINT `item_os_ibfk_2` FOREIGN KEY (`idOs`) REFERENCES `os` (`codigo`);
+
+--
 -- Limitadores para a tabela `os`
 --
 ALTER TABLE `os`
-  ADD CONSTRAINT `os_ibfk_1` FOREIGN KEY (`codigoProduto`) REFERENCES `produtos` (`codigo`),
-  ADD CONSTRAINT `os_ibfk_2` FOREIGN KEY (`idSetor`) REFERENCES `setor` (`idSetor`);
+  ADD CONSTRAINT `os_ibfk_1` FOREIGN KEY (`idSetor`) REFERENCES `setor` (`idSetor`);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

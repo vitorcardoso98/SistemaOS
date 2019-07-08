@@ -6,8 +6,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import modelo.ItemOS;
 import modelo.OrdemServico;
-import modelo.Produto;
-import modelo.Setor;
 
 /**
  *
@@ -23,11 +21,12 @@ public class OsDAO {
         
         int codigoOS = 0;
         
-        String COLUNAS = "dataEmissao, servico, valorServico, descricao";
+        String COLUNAS = "dataEmissao, servico, valorServico, descricao, idSetor";
         String VALUES = "'" + new Date(os.getDataEmissao().getTime()) + "',"
                 + "'" + os.getServico() + "',"
                 + "'" + os.getValorServico() + "',"
-                + "'" + os.getDescricao() + "'";
+                + "'" + os.getDescricao() + "',"
+                + "'" + os.getSetor().getIdSetor() + "'";
         String sql = "INSERT INTO " + TABELA + "(" + COLUNAS + ") VALUES (" + VALUES + ")";
         ResultSet rs = bd.inserir(sql, "os");
         
